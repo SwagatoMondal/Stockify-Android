@@ -17,12 +17,11 @@ public class AdapterUtil {
 
     public static SnapshotParser<Stock> getParser() {
         return snapshot -> {
-            // {instrument_token=277876486, name=EURINR, exchange_token=1085455, tradingsymbol=EURAPR22JUL22, last_price=0}
             Stock stock = new Stock();
-            stock.setName(snapshot.getString("name"));
-            stock.setSymbol(snapshot.getString("tradingsymbol"));
-            stock.setPrice(snapshot.getDouble("last_price").floatValue());
-            stock.setExchange(snapshot.getString("exchange"));
+            stock.setName(snapshot.getString("Name"));
+            stock.setSymbol(snapshot.getString("Symbol"));
+            stock.setPrice(snapshot.getDouble("Price").floatValue());
+            stock.setExchange(snapshot.getString("Exchange"));
             return stock;
         };
     }

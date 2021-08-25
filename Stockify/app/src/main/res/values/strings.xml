@@ -15,4 +15,6 @@
     <string name="user_email">user@email.com</string>
     <string name="sign_out">Sign Out</string>
     <string name="logged_out">You have been logged out</string>
+
+    <string name="search_stocks">Search Stocks</string>
 </resources>

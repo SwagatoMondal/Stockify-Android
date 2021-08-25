@@ -1,5 +1,6 @@
 package com.aas.stockify.ui.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.aas.stockify.SearchActivity;
 import com.aas.stockify.databinding.FragmentSearchBinding;
 
 public class SearchFragment extends Fragment {
@@ -34,7 +36,16 @@ public class SearchFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Intent searchActivity = new Intent(getContext(), SearchActivity.class);
+        startActivity(searchActivity);
     }
 
     @Override
