@@ -10,9 +10,12 @@
         <entry key="app/src/main/res/drawable/profile_image.xml" value="0.4041666666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/activity_splashscreen.xml" value="0.27807971014492755" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.27807971014492755" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.27807971014492755" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.27807971014492755" />
+        <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/home_stock_item.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2359375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2359375" />

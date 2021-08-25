@@ -1,16 +1,16 @@
-package com.aas.stockify.ui.dashboard;
+package com.aas.stockify.ui.trending;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class TrendingViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public TrendingViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is trending fragment");
     }
 
     public LiveData<String> getText() {

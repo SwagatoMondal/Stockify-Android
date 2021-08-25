@@ -1,4 +1,4 @@
-package com.aas.stockify.ui.home;
+package com.aas.stockify.ui.trending;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,38 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.aas.stockify.databinding.FragmentHomeBinding;
+import com.aas.stockify.databinding.FragmentTrendingBinding;
 import com.aas.stockify.entity.Stock;
 import com.aas.stockify.ui.views.AdapterUtil;
 import com.aas.stockify.ui.views.StockViewHolder;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.firebase.ui.firestore.SnapshotParser;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-public class HomeFragment extends Fragment {
+public class TrendingFragment extends Fragment {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = TrendingFragment.class.getSimpleName();
 
-    private FragmentHomeBinding binding;
+    private FragmentTrendingBinding binding;
 
     private FirestoreRecyclerAdapter<Stock, StockViewHolder> adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentTrendingBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         prepareRecyclerView();
@@ -71,14 +62,14 @@ public class HomeFragment extends Fragment {
      * Method to load user selected (interested in) stock information
      */
     private void prepareRecyclerView() {
-        Log.d(TAG, "Preparing Home RecyclerView");
-        binding.stocks.setLayoutManager(new LinearLayoutManager(getContext()));
-        // TODO point to user level stocks only
+        Log.d(TAG, "Preparing Trending RecyclerView");
+        binding.trending.setLayoutManager(new LinearLayoutManager(getContext()));
+        // TODO fix key name
         Query query = FirebaseFirestore.getInstance().collection("intruments");
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();
         adapter = AdapterUtil.getAdapter(options);
-        binding.stocks.setAdapter(adapter);
+        binding.trending.setAdapter(adapter);
     }
 }
