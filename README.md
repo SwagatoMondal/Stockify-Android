@@ -3,7 +3,9 @@ Stock Update Notifier
 
 # Screenshots
 ## SplashScreen
-![alt text](https://github.com/SwagatoMondal/Stockify-Android/Screenshots/Splash.png?raw=true)
+<p align="center">
+  <img width="460" height="300" src="https://github.com/SwagatoMondal/Stockify-Android/Screenshots/Splash.png?raw=true">
+</p>
 
 ## Google SignIn
 ![alt text](https://github.com/SwagatoMondal/Stockify-Android/Screenshots/Login.png?raw=true)
