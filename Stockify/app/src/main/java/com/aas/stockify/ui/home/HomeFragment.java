@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "Preparing Home RecyclerView");
         binding.stocks.setLayoutManager(new LinearLayoutManager(getContext()));
         // TODO point to user level stocks only
-        Query query = FirebaseFirestore.getInstance().collection("intruments");
+        Query query = FirebaseFirestore.getInstance().collection("test-trending");
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();

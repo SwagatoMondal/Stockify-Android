@@ -65,7 +65,7 @@ public class TrendingFragment extends Fragment {
         Log.d(TAG, "Preparing Trending RecyclerView");
         binding.trending.setLayoutManager(new LinearLayoutManager(getContext()));
         // TODO fix key name
-        Query query = FirebaseFirestore.getInstance().collection("intruments");
+        Query query = FirebaseFirestore.getInstance().collection("test-trending");
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();

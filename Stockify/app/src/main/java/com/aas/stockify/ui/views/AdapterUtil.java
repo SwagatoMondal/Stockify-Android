@@ -22,6 +22,7 @@ public class AdapterUtil {
             stock.setName(snapshot.getString("name"));
             stock.setSymbol(snapshot.getString("tradingsymbol"));
             stock.setPrice(snapshot.getDouble("last_price").floatValue());
+            stock.setExchange(snapshot.getString("exchange"));
             return stock;
         };
     }
