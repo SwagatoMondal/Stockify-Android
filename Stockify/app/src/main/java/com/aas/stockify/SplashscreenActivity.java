@@ -16,6 +16,7 @@ import android.view.WindowInsets;
 import android.widget.Toast;
 
 import com.aas.stockify.databinding.ActivitySplashscreenBinding;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,13 +24,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -73,7 +80,6 @@ public class SplashscreenActivity extends AppCompatActivity {
             Intent signInIntent = googleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
-        Log.d(TAG, "FCM : onCreate");
     }
 
     @Override
@@ -85,7 +91,6 @@ public class SplashscreenActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "FCM : onStart");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             Log.d(TAG, "FCM : Attempting to retrieve");
@@ -156,14 +161,12 @@ public class SplashscreenActivity extends AppCompatActivity {
     }
 
     private void openHomeScreen() {
-        Log.d(TAG, "FCM : Launching home screen");
         Intent homeIntent = new Intent(this, HomeActivity.class);
         startActivity(homeIntent);
         finish();
     }
 
     private void retrieveFCMToken() {
-        Log.d(TAG, "Attempting to fetch FCM token.");
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -178,8 +181,40 @@ public class SplashscreenActivity extends AppCompatActivity {
 
                         // Log
                         Log.d(TAG, "FCM token : " + token);
-                        openHomeScreen();
+                        storeUserDetailsOnFirestore(token);
                     }
                 });
+    }
+
+    private void storeUserDetailsOnFirestore(String fcmToken) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Map<String, String> details = new HashMap<>();
+            details.put("name", user.getDisplayName());
+            details.put("email", user.getEmail());
+            details.put("fcmToken", fcmToken);
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid())
+                    .set(details)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "UserDetails successfully written!");
+                            openHomeScreen();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing UserDetails", e);
+                            Toast.makeText(SplashscreenActivity.this,
+                                    R.string.other_failure, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            Toast.makeText(SplashscreenActivity.this,
+                    R.string.other_failure, Toast.LENGTH_SHORT).show();
+        }
     }
 }
