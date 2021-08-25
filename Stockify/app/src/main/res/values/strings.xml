@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Stockify</string>
+    <string name="title_activity_splashscreen">Stockify</string>
+    <string name="login_failure">Sign In attempt failure, please try again!</string>
 </resources>
