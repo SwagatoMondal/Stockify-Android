@@ -61,6 +61,7 @@ public class SplashscreenActivity extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("121097474425-ot0iv051qlhqtj5keqatsh4m6qopb27t.apps.googleusercontent.com")
                 .requestEmail()
+                .requestProfile()
                 .build();
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
 
