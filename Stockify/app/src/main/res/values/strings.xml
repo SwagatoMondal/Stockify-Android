@@ -2,4 +2,12 @@
     <string name="app_name">Stockify</string>
     <string name="title_activity_splashscreen">Stockify</string>
     <string name="login_failure">Sign In attempt failure, please try again!</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_alerts">Home</string>
+    <string name="title_trending">Trending</string>
+    <string name="title_search">Search</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

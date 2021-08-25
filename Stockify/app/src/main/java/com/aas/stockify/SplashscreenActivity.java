@@ -152,7 +152,7 @@ public class SplashscreenActivity extends AppCompatActivity {
     }
 
     private void openHomeScreen() {
-        Intent homeIntent = new Intent(this, MainActivity.class);
+        Intent homeIntent = new Intent(this, HomeActivity.class);
         startActivity(homeIntent);
         finish();
     }
