@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.aas.stockify.R;
 import com.aas.stockify.databinding.FragmentHomeBinding;
 import com.aas.stockify.entity.Stock;
+import com.aas.stockify.ui.ItemClickListener;
 import com.aas.stockify.ui.views.AdapterUtil;
+import com.aas.stockify.ui.views.StockAdapter;
 import com.aas.stockify.ui.views.StockViewHolder;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -29,7 +31,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ItemClickListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
 
@@ -75,11 +77,17 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "Preparing Home RecyclerView");
         binding.stocks.setLayoutManager(new LinearLayoutManager(getContext()));
         // TODO point to user level stocks only
-        Query query = FirebaseFirestore.getInstance().collection("instruments");
+        Query query = FirebaseFirestore.getInstance().collection("instruments").
+                limit(50);
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();
-        adapter = AdapterUtil.getAdapter(options, R.layout.home_stock_item);
+        adapter = new StockAdapter(options, R.layout.home_stock_item, this);
         binding.stocks.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemSelected(Stock stock) {
+
     }
 }

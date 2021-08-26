@@ -1,4 +1,4 @@
-package com.aas.stockify.ui.notifications;
+package com.aas.stockify.ui.search;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

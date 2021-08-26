@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.27807971014492755" />
         <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/home_stock_item.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/layout_add_alert.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recycler_view_stocks.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/trending_stock_item.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.21979166666666666" />

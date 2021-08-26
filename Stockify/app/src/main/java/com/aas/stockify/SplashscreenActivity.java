@@ -1,13 +1,11 @@
 package com.aas.stockify;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +14,9 @@ import android.view.WindowInsets;
 import android.widget.Toast;
 
 import com.aas.stockify.databinding.ActivitySplashscreenBinding;
-import com.bumptech.glide.Glide;
+import com.aas.stockify.network.NetworkListener;
+import com.aas.stockify.network.NetworkManager;
+import com.android.volley.VolleyError;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,25 +24,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class SplashscreenActivity extends AppCompatActivity {
+public class SplashscreenActivity extends AppCompatActivity implements NetworkListener<String> {
 
     private static final String TAG = SplashscreenActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 100;
@@ -53,6 +47,7 @@ public class SplashscreenActivity extends AppCompatActivity {
      */
     private View mContentView;
     private ActivitySplashscreenBinding binding;
+    private ProgressDialog dialog;
 
     private FirebaseAuth mAuth;
 
@@ -65,6 +60,7 @@ public class SplashscreenActivity extends AppCompatActivity {
 
         mContentView = binding.fullscreenContent;
         mAuth = FirebaseAuth.getInstance();
+        dialog = new ProgressDialog(this);
     }
 
     @Override
@@ -79,7 +75,7 @@ public class SplashscreenActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             Log.d(TAG, "FCM : Attempting to retrieve");
-            retrieveFCMToken();
+            openHomeScreen();
         } else {
             initializerViews();
         }
@@ -186,40 +182,35 @@ public class SplashscreenActivity extends AppCompatActivity {
 
                         // Log
                         Log.d(TAG, "FCM token : " + token);
-                        storeUserDetailsOnFirestore(token);
+                        storeUserDetailsOnServer(token);
                     }
                 });
     }
 
-    private void storeUserDetailsOnFirestore(String fcmToken) {
+    private void storeUserDetailsOnServer(String fcmToken) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            Map<String, String> details = new HashMap<>();
-            details.put("name", user.getDisplayName());
-            details.put("email", user.getEmail());
-            details.put("fcmToken", fcmToken);
+            dialog.setTitle(R.string.creating_user);
+            dialog.show();
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users").document(user.getUid())
-                    .set(details)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "UserDetails successfully written!");
-                            openHomeScreen();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing UserDetails", e);
-                            Toast.makeText(SplashscreenActivity.this,
-                                    R.string.other_failure, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            NetworkManager.addUser(this, this, user, fcmToken);
         } else {
             Toast.makeText(SplashscreenActivity.this,
                     R.string.other_failure, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onResponse(String response) {
+        dialog.dismiss();
+        openHomeScreen();
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        dialog.dismiss();
+        Log.w(TAG, "Error writing UserDetails", error);
+        Toast.makeText(SplashscreenActivity.this,
+                R.string.other_failure, Toast.LENGTH_SHORT).show();
     }
 }

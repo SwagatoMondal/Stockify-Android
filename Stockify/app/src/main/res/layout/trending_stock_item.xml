@@ -18,7 +18,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
+            android:maxLines="1"
             android:textSize="20sp"
+            android:ellipsize="end"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,10 +36,43 @@
             app:layout_constraintTop_toBottomOf="@id/name" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/labels"
+            android:id="@+id/pricing"
+            android:weightSum="2"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/symbol"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/ltp_percentage"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_green_dark"
+                android:padding="3dp"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/labels"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pricing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="2"
@@ -110,27 +148,6 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:textSize="18sp"
-            android:text="13.5 %"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/ltp_percentage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_green_dark"
-            android:padding="3dp"
-            android:textSize="15sp"
-            android:text="13.5 %"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/price" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

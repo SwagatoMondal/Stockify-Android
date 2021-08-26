@@ -5,6 +5,9 @@
     <string name="other_failure">Something went wrong, please try again!</string>
     <string name="percent">%s %</string>
 
+    <string name="creating_user">Creating/Updating User …</string>
+    <string name="adding_alert">Adding alert …</string>
+
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_alerts">Home</string>
@@ -22,4 +25,13 @@
     <string name="search_stocks">Search Stocks</string>
     <string name="expected_returns">Expected returns</string>
     <string name="target_price">Target price</string>
+    <string name="add_alert">Add Alert</string>
+    <string name="create">Create</string>
+    <string name="operator_title">Choose alert type :</string>
+    <string name="enter_price">Enter your target price</string>
+
+    <string-array name="operators">
+        <item>Greater than or equal to</item>
+        <item>Less than or equal to</item>
+    </string-array>
 </resources>

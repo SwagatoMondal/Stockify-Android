@@ -13,14 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.aas.stockify.R;
 import com.aas.stockify.databinding.FragmentTrendingBinding;
 import com.aas.stockify.entity.Stock;
+import com.aas.stockify.ui.ItemClickListener;
 import com.aas.stockify.ui.views.AdapterUtil;
+import com.aas.stockify.ui.views.StockAdapter;
 import com.aas.stockify.ui.views.StockViewHolder;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class TrendingFragment extends Fragment {
+public class TrendingFragment extends Fragment implements ItemClickListener {
 
     private static final String TAG = TrendingFragment.class.getSimpleName();
 
@@ -65,11 +67,18 @@ public class TrendingFragment extends Fragment {
     private void prepareRecyclerView() {
         Log.d(TAG, "Preparing Trending RecyclerView");
         binding.trending.setLayoutManager(new LinearLayoutManager(getContext()));
-        Query query = FirebaseFirestore.getInstance().collection("trending");
+        Query query = FirebaseFirestore.getInstance().collection("trending")
+                .orderBy("ExpectedReturnsPerc", Query.Direction.DESCENDING)
+                .limit(20);
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();
-        adapter = AdapterUtil.getAdapter(options, R.layout.trending_stock_item);
+        adapter = new StockAdapter(options, R.layout.trending_stock_item, this);
         binding.trending.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemSelected(Stock stock) {
+
     }
 }

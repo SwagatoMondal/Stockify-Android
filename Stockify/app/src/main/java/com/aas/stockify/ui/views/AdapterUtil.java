@@ -1,16 +1,6 @@
 package com.aas.stockify.ui.views;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-
-import com.aas.stockify.R;
 import com.aas.stockify.entity.Stock;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.firebase.ui.firestore.SnapshotParser;
 
 public class AdapterUtil {
@@ -20,6 +10,8 @@ public class AdapterUtil {
             Stock stock = new Stock();
             stock.setName(snapshot.getString("Name"));
             stock.setSymbol(snapshot.getString("Symbol"));
+            stock.setExchangeId(snapshot.getString("Exchange_ID"));
+            stock.setInstrumentId(snapshot.getString("Instrument_ID"));
 
             Double price = snapshot.getDouble("Price");
             if (price == null) {
@@ -40,11 +32,5 @@ public class AdapterUtil {
 
             return stock;
         };
-    }
-
-    public static FirestoreRecyclerAdapter<Stock, StockViewHolder> getAdapter(
-            FirestoreRecyclerOptions<Stock> options,
-            @LayoutRes final int layout) {
-        return new StockAdapter(options, layout);
     }
 }

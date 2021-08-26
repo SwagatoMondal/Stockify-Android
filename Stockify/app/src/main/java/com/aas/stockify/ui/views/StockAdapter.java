@@ -11,14 +11,17 @@ import androidx.annotation.NonNull;
 
 import com.aas.stockify.R;
 import com.aas.stockify.entity.Stock;
+import com.aas.stockify.ui.ItemClickListener;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.lang.ref.WeakReference;
 
 public class StockAdapter extends FirestoreRecyclerAdapter<Stock, StockViewHolder> {
 
     @LayoutRes
     private final int layout;
+    private WeakReference<ItemClickListener> listenerRef;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -27,15 +30,16 @@ public class StockAdapter extends FirestoreRecyclerAdapter<Stock, StockViewHolde
      * @param options The FireStore options
      * @param layout The item layout
      */
-    public StockAdapter(@NonNull FirestoreRecyclerOptions<Stock> options, @LayoutRes int layout) {
+    public StockAdapter(@NonNull FirestoreRecyclerOptions<Stock> options, @LayoutRes int layout,
+                        @NonNull ItemClickListener listener) {
         super(options);
         this.layout = layout;
+        this.listenerRef = new WeakReference<>(listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull StockViewHolder holder, int position,
                                  @NonNull Stock model) {
-        System.out.println("Search Adding model : " + model.getName() + ", count = " + getItemCount());
         holder.name.setText(model.getName());
         holder.symbol.setText(model.getSymbol());
         holder.exchange.setText(model.getExchange());
@@ -53,6 +57,13 @@ public class StockAdapter extends FirestoreRecyclerAdapter<Stock, StockViewHolde
             trending.returns.setText(returns + " %");
             trending.returns.setTextColor(returns >= 0 ? Color.GREEN : Color.RED);
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            ItemClickListener listener = listenerRef.get();
+            if (listener != null) {
+                listener.onItemSelected(model);
+            }
+        });
     }
 
     @NonNull

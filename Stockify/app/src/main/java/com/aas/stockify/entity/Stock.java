@@ -8,6 +8,8 @@ public class Stock {
     private float ltpChangePercentage;
     private float targetPrice;
     private float returns;
+    private String exchangeId;
+    private String instrumentId;
 
     public float getLtpChangePercentage() {
         return ltpChangePercentage;
@@ -63,5 +65,21 @@ public class Stock {
 
     public float getReturns() {
         return returns;
+    }
+
+    public void setExchangeId(String exchangeId) {
+        this.exchangeId = exchangeId;
+    }
+
+    public String getExchangeId() {
+        return exchangeId;
+    }
+
+    public void setInstrumentId(String instrumentId) {
+        this.instrumentId = instrumentId;
+    }
+
+    public String getInstrumentId() {
+        return instrumentId;
     }
 }
