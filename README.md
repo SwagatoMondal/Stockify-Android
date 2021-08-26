@@ -1,6 +1,12 @@
 # Stockify
 Stock Update Notifier
 
+# Repo links
+The Backend server links are as follows -
+
+[API Server](https://github.com/anuraggoelkkc/stockify-api)
+[Recommendations Service](https://github.com/anuraggoelkkc/stock-reco)
+
 # Screenshots
 ## SplashScreen
 The first screen of the app.
