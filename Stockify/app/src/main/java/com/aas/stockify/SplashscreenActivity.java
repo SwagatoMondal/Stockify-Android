@@ -212,5 +212,6 @@ public class SplashscreenActivity extends AppCompatActivity implements NetworkLi
         Log.w(TAG, "Error writing UserDetails", error);
         Toast.makeText(SplashscreenActivity.this,
                 R.string.other_failure, Toast.LENGTH_SHORT).show();
+        FirebaseAuth.getInstance().signOut();
     }
 }

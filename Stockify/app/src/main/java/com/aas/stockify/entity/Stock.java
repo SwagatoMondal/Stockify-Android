@@ -10,6 +10,15 @@ public class Stock {
     private float returns;
     private String exchangeId;
     private String instrumentId;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public float getLtpChangePercentage() {
         return ltpChangePercentage;

@@ -7,13 +7,10 @@ import androidx.annotation.NonNull;
 
 import com.aas.stockify.entity.Stock;
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,8 +24,10 @@ public class NetworkManager {
 
     private static final String TAG = NetworkManager.class.getSimpleName();
 
-    private static final String ADD_USER_URL = "http://ab/addUser";
-    private static final String ADD_ALERT_URL = "http://ab/addAlert";
+    private static final String DOMAIN = "http://68.183.89.173/";
+    private static final String ADD_USER_URL = DOMAIN + "addUser";
+    private static final String ADD_ALERT_URL = DOMAIN + "addAlert";
+    private static final String FETCH_ALERT_URL = DOMAIN + "instrumentDetails/";
 
     public static void addUser(@NonNull Context context,
                                @NonNull NetworkListener<String> listener,
@@ -99,16 +98,6 @@ public class NetworkManager {
                         return null;
                     }
                 }
-
-                @Override
-                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
-                    if (response != null) {
-                        responseString = String.valueOf(response.statusCode);
-                        // can get more details such as response.headers
-                    }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-                }
             };
 
             requestQueue.add(stringRequest);
@@ -117,4 +106,14 @@ public class NetworkManager {
         }
     }
 
+    public static void fetchStockDetails(@NonNull Context context,
+                                         @NonNull String exchange,
+                                         @NonNull String symbol,
+                                         @NonNull NetworkListener<JSONObject> listener) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        final String url = FETCH_ALERT_URL + exchange + "/" + symbol;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, listener, listener);
+        requestQueue.add(jsonObjectRequest);
+    }
 }

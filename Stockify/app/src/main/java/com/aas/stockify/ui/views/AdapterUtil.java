@@ -8,6 +8,7 @@ public class AdapterUtil {
     public static SnapshotParser<Stock> getParser() {
         return snapshot -> {
             Stock stock = new Stock();
+            stock.setId(snapshot.getId());
             stock.setName(snapshot.getString("Name"));
             stock.setSymbol(snapshot.getString("Symbol"));
             stock.setExchangeId(snapshot.getString("Exchange_ID"));

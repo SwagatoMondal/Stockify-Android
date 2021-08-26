@@ -7,6 +7,7 @@
 
     <string name="creating_user">Creating/Updating User …</string>
     <string name="adding_alert">Adding alert …</string>
+    <string name="loading">Loading …</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
@@ -26,9 +27,22 @@
     <string name="expected_returns">Expected returns</string>
     <string name="target_price">Target price</string>
     <string name="add_alert">Add Alert</string>
+    <string name="remove_alert">Remove Alert</string>
     <string name="create">Create</string>
     <string name="operator_title">Choose alert type :</string>
     <string name="enter_price">Enter your target price</string>
+
+    <string name="summary">Summary</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="volume">Volume</string>
+    <string name="avg_price">Avg Price</string>
+    <string name="last_quantity">Last Quantity</string>
+    <string name="buy_quantity">Buy Quantity</string>
+    <string name="lower_circuit">Lower Circuit</string>
+    <string name="upper_circuit">Upper Circuit</string>
 
     <string-array name="operators">
         <item>Greater than or equal to</item>
