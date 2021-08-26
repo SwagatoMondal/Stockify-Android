@@ -1,10 +1,10 @@
 package com.aas.stockify.ui.views;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
 import com.aas.stockify.R;
@@ -20,33 +20,31 @@ public class AdapterUtil {
             Stock stock = new Stock();
             stock.setName(snapshot.getString("Name"));
             stock.setSymbol(snapshot.getString("Symbol"));
-            stock.setPrice(snapshot.getDouble("Price").floatValue());
+
+            Double price = snapshot.getDouble("Price");
+            if (price == null) {
+                price = snapshot.getDouble("CurrentPrice");
+            }
+            stock.setPrice(price == null ? 0.0f : price.floatValue());
+
             stock.setExchange(snapshot.getString("Exchange"));
+
+            Double percent = snapshot.getDouble("LTPChangePerc");
+            stock.setLtpChangePercentage(percent == null ? 0.0f : percent.floatValue());
+
+            Double returns = snapshot.getDouble("ExpectedReturnsPerc");
+            stock.setReturns(returns == null ? 0.0f : returns.floatValue());
+
+            Double target = snapshot.getDouble("TargetPrice");
+            stock.setTargetPrice(target == null ? 0.0f : target.floatValue());
+
             return stock;
         };
     }
 
     public static FirestoreRecyclerAdapter<Stock, StockViewHolder> getAdapter(
-            FirestoreRecyclerOptions<Stock> options) {
-        return new FirestoreRecyclerAdapter<Stock, StockViewHolder>(options) {
-            @Override
-            public void onBindViewHolder(@NonNull StockViewHolder holder, int position,
-                                         @NonNull Stock model) {
-                holder.name.setText(model.getName());
-                holder.symbol.setText(model.getSymbol());
-                holder.exchange.setText(model.getExchange());
-            }
-
-            @NonNull
-            @Override
-            public StockViewHolder onCreateViewHolder(@NonNull ViewGroup group, int i) {
-                // Create a new instance of the ViewHolder, in this case we are using a custom
-                // layout called R.layout.message for each item
-                View view = LayoutInflater.from(group.getContext())
-                        .inflate(R.layout.home_stock_item, group, false);
-
-                return new StockViewHolder(view);
-            }
-        };
+            FirestoreRecyclerOptions<Stock> options,
+            @LayoutRes final int layout) {
+        return new StockAdapter(options, layout);
     }
 }

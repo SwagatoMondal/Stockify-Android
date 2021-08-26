@@ -10,15 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SearchActivity"
-            android:exported="true">
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-
-        </activity>
-        <activity
             android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home" />

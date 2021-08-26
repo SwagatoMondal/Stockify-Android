@@ -65,21 +65,6 @@ public class SplashscreenActivity extends AppCompatActivity {
 
         mContentView = binding.fullscreenContent;
         mAuth = FirebaseAuth.getInstance();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("121097474425-ot0iv051qlhqtj5keqatsh4m6qopb27t.apps.googleusercontent.com")
-                .requestEmail()
-                .requestProfile()
-                .build();
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-
-        findViewById(R.id.sign_in_button).setOnClickListener(v -> {
-            Intent signInIntent = googleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
-        });
     }
 
     @Override
@@ -95,7 +80,27 @@ public class SplashscreenActivity extends AppCompatActivity {
         if (currentUser != null) {
             Log.d(TAG, "FCM : Attempting to retrieve");
             retrieveFCMToken();
+        } else {
+            initializerViews();
         }
+    }
+
+    private void initializerViews() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("121097474425-ot0iv051qlhqtj5keqatsh4m6qopb27t.apps.googleusercontent.com")
+                .requestEmail()
+                .requestProfile()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.sign_in_button).setOnClickListener(v -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
     private void hide() {

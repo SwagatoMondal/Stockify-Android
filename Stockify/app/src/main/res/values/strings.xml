@@ -3,6 +3,7 @@
     <string name="title_activity_splashscreen">Stockify</string>
     <string name="login_failure">Sign In attempt failure, please try again!</string>
     <string name="other_failure">Something went wrong, please try again!</string>
+    <string name="percent">%s %</string>
 
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
@@ -19,4 +20,6 @@
     <string name="logged_out">You have been logged out</string>
 
     <string name="search_stocks">Search Stocks</string>
+    <string name="expected_returns">Expected returns</string>
+    <string name="target_price">Target price</string>
 </resources>

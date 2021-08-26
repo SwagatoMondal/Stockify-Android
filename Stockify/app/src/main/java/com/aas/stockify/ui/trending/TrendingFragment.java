@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.aas.stockify.R;
 import com.aas.stockify.databinding.FragmentTrendingBinding;
 import com.aas.stockify.entity.Stock;
 import com.aas.stockify.ui.views.AdapterUtil;
@@ -64,12 +65,11 @@ public class TrendingFragment extends Fragment {
     private void prepareRecyclerView() {
         Log.d(TAG, "Preparing Trending RecyclerView");
         binding.trending.setLayoutManager(new LinearLayoutManager(getContext()));
-        // TODO fix key name
-        Query query = FirebaseFirestore.getInstance().collection("instruments");
+        Query query = FirebaseFirestore.getInstance().collection("trending");
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();
-        adapter = AdapterUtil.getAdapter(options);
+        adapter = AdapterUtil.getAdapter(options, R.layout.trending_stock_item);
         binding.trending.setAdapter(adapter);
     }
 }

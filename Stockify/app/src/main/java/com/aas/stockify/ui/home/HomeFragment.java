@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.aas.stockify.R;
 import com.aas.stockify.databinding.FragmentHomeBinding;
 import com.aas.stockify.entity.Stock;
 import com.aas.stockify.ui.views.AdapterUtil;
@@ -78,7 +79,7 @@ public class HomeFragment extends Fragment {
         FirestoreRecyclerOptions<Stock> options = new FirestoreRecyclerOptions.Builder<Stock>()
                 .setQuery(query, AdapterUtil.getParser())
                 .build();
-        adapter = AdapterUtil.getAdapter(options);
+        adapter = AdapterUtil.getAdapter(options, R.layout.home_stock_item);
         binding.stocks.setAdapter(adapter);
     }
 }

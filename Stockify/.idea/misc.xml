@@ -21,6 +21,7 @@
         <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/home_stock_item.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/recycler_view_stocks.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/trending_stock_item.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/menu/search.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2359375" />
