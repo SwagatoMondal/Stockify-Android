@@ -73,7 +73,6 @@ public class HomeFragment extends Fragment implements ItemClickListener {
             Log.d(TAG, "Preparing Home RecyclerView");
             binding.stocks.setLayoutManager(new StockLayoutManager(getContext()));
             // .whereEqualTo("UserId", user.getUid())
-            System.out.println("UID : " + user.getUid());
             Query query = FirebaseFirestore.getInstance().collection("alert")
                     .whereEqualTo("UserId", user.getUid())
                     .limit(50);
@@ -88,12 +87,8 @@ public class HomeFragment extends Fragment implements ItemClickListener {
     @Override
     public void onItemSelected(Stock stock) {
         Intent intent = new Intent(getContext(), AlertDetailsActivity.class);
-        intent.putExtra("name", stock.getName());
-        intent.putExtra("exchange", stock.getExchange());
-        intent.putExtra("symbol", stock.getSymbol());
-        intent.putExtra("instrumentId", stock.getInstrumentId());
-        intent.putExtra("exchangeId", stock.getExchangeId());
-        intent.putExtra("created", false);
+        intent.putExtra("created", true);
+        intent.putExtra("stock", stock);
         startActivity(intent);
     }
 }

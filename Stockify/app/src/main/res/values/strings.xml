@@ -26,8 +26,11 @@
     <string name="search_stocks">Search Stocks</string>
     <string name="expected_returns">Expected returns</string>
     <string name="target_price">Target price</string>
+    <string name="alert_created">Alert created</string>
     <string name="add_alert">Add Alert</string>
     <string name="remove_alert">Remove Alert</string>
+    <string name="alert_removed">Alert removed</string>
+    <string name="remove_alert_msg">Are you sure that you want to remove this alert?</string>
     <string name="create">Create</string>
     <string name="operator_title">Choose alert type :</string>
     <string name="enter_price">Enter your target price</string>

@@ -1,6 +1,8 @@
 package com.aas.stockify.entity;
 
-public class Stock {
+import java.io.Serializable;
+
+public class Stock implements Serializable {
     private String name;
     private String symbol;
     private float price;

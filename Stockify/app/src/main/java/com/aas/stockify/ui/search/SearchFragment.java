@@ -107,11 +107,7 @@ public class SearchFragment extends Fragment implements ItemClickListener {
     @Override
     public void onItemSelected(Stock stock) {
         Intent intent = new Intent(getContext(), AlertDetailsActivity.class);
-        intent.putExtra("name", stock.getName());
-        intent.putExtra("exchange", stock.getExchange());
-        intent.putExtra("symbol", stock.getSymbol());
-        intent.putExtra("instrumentId", stock.getInstrumentId());
-        intent.putExtra("exchangeId", stock.getExchangeId());
+        intent.putExtra("stock", stock);
         intent.putExtra("created", false);
         startActivity(intent);
     }

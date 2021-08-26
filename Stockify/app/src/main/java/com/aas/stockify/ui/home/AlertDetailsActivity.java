@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,11 +55,13 @@ public class AlertDetailsActivity extends AppCompatActivity implements NetworkLi
         if (user != null && intent != null) {
             dialog.show();
 
-            String name = intent.getStringExtra("name");
-            String symbol = intent.getStringExtra("symbol");
-            String instrumentId = intent.getStringExtra("instrumentId");
-            String exchange = intent.getStringExtra("exchange");
-            String exchangeId = intent.getStringExtra("exchangeId");
+//            String id = intent.getStringExtra("id");
+//            String name = intent.getStringExtra("name");
+//            String symbol = intent.getStringExtra("symbol");
+//            String instrumentId = intent.getStringExtra("instrumentId");
+//            String exchange = intent.getStringExtra("exchange");
+//            String exchangeId = intent.getStringExtra("exchangeId");
+            Stock stock = (Stock) intent.getSerializableExtra("stock");
             this.created = intent.getBooleanExtra("created", false);
 
             Button button = findViewById(R.id.action);
@@ -66,16 +70,17 @@ public class AlertDetailsActivity extends AppCompatActivity implements NetworkLi
             }
             button.setOnClickListener(v -> {
                 if (created) {
-                    removeDialog();
+                    removeDialog(stock.getId());
                 } else {
-                    showCreateDialog(user.getUid(), instrumentId, exchangeId);
+                    showCreateDialog(user.getUid(), stock);
                 }
             });
 
             TextView nameTv = findViewById(R.id.name);
-            nameTv.setText(name);
+            nameTv.setText(stock.getName());
 
-            NetworkManager.fetchStockDetails(this, exchange, symbol, this);
+            NetworkManager.fetchStockDetails(this, stock.getExchange(), stock.getSymbol(),
+                    this);
         }
     }
 
@@ -125,7 +130,7 @@ public class AlertDetailsActivity extends AppCompatActivity implements NetworkLi
         }
     }
 
-    private void showCreateDialog(String userId, String instrumentId, String exchangeId) {
+    private void showCreateDialog(String userId, Stock stock) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.add_alert);
         final View root = LayoutInflater.from(this).inflate(R.layout.layout_add_alert, null, false);
@@ -141,24 +146,30 @@ public class AlertDetailsActivity extends AppCompatActivity implements NetworkLi
 
             AlertDetailsActivity.this.dialog.show();
             boolean direction = spinner.getSelectedItemPosition() == 0;
-            Stock stock = new Stock();
-            stock.setInstrumentId(instrumentId);
-            stock.setExchangeId(exchangeId);
 
             TextInputEditText priceEdit = root.findViewById(R.id.price);
-            stock.setTargetPrice(Float.parseFloat(priceEdit.getText().toString()));
+            String value = "0.0";
+            Editable priceEditable = priceEdit.getText();
+            if (!TextUtils.isEmpty(priceEditable)) {
+                //noinspection ConstantConditions
+                value = priceEditable.toString();
+            }
+            stock.setTargetPrice(Float.parseFloat(value));
 
             NetworkManager.addAlert(AlertDetailsActivity.this,
                     userId, stock, direction, new NetworkListener<String>() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             AlertDetailsActivity.this.dialog.dismiss();
-                            Log.w(TAG, "Error creating alert", error);
+                            Log.w(TAG, "Error while creating alert", error);
                         }
 
                         @Override
                         public void onResponse(String response) {
+                            Toast.makeText(AlertDetailsActivity.this,
+                                    R.string.alert_created, Toast.LENGTH_SHORT).show();
                             AlertDetailsActivity.this.dialog.dismiss();
+                            finish();
                         }
                     });
         });
@@ -167,7 +178,30 @@ public class AlertDetailsActivity extends AppCompatActivity implements NetworkLi
         builder.show();
     }
 
-    private void removeDialog() {
+    private void removeDialog(final String alertId) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.remove_alert);
+        builder.setMessage(R.string.remove_alert_msg);
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
 
+            NetworkManager.removeAlert(AlertDetailsActivity.this, alertId,
+                    new NetworkListener<String>() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            AlertDetailsActivity.this.dialog.dismiss();
+                            Log.w(TAG, "Error while removing alert", error);
+                        }
+
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(AlertDetailsActivity.this,
+                                    R.string.alert_removed, Toast.LENGTH_SHORT).show();
+                            AlertDetailsActivity.this.dialog.dismiss();
+                            finish();
+                        }
+                    });
+        });
+        builder.show();
     }
 }

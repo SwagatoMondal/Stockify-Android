@@ -28,6 +28,7 @@ public class NetworkManager {
     private static final String ADD_USER_URL = DOMAIN + "addUser";
     private static final String ADD_ALERT_URL = DOMAIN + "addAlert";
     private static final String FETCH_ALERT_URL = DOMAIN + "instrumentDetails/";
+    private static final String REMOVE_ALERT = DOMAIN + "removeAlert/";
 
     public static void addUser(@NonNull Context context,
                                @NonNull NetworkListener<String> listener,
@@ -76,6 +77,9 @@ public class NetworkManager {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("user_id", userId);
+            jsonBody.put("name", stock.getName());
+            jsonBody.put("symbol", stock.getSymbol());
+            jsonBody.put("exchange", stock.getExchange());
             jsonBody.put("instrument_token", stock.getInstrumentId());
             jsonBody.put("exchange_token", stock.getExchangeId());
             jsonBody.put("target_price", stock.getTargetPrice());
@@ -115,5 +119,15 @@ public class NetworkManager {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, listener, listener);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    public static void removeAlert(@NonNull Context context,
+                                   @NonNull String alertId,
+                                   @NonNull NetworkListener<String> listener) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        final String url = REMOVE_ALERT + alertId;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                listener, listener);
+        requestQueue.add(stringRequest);
     }
 }
